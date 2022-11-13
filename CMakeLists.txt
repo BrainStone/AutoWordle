@@ -16,6 +16,10 @@ file(GLOB_RECURSE data assets/*)
 # you can use set(sources src/main.cpp) etc if you don't want to
 # use globing to find files automatically
 
+###############################################################################
+## file generation ############################################################
+###############################################################################
+
 file(STRINGS assets/allowed_words.txt allowed_words)
 file(STRINGS assets/solution_words.txt solution_words)
 list(TRANSFORM allowed_words PREPEND "    Word(\"")
