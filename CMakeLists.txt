@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(AutoWordle CXX)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 
 ###############################################################################
 ## file globbing ##############################################################
@@ -30,6 +31,7 @@ endif ()
 
 # this lets me include files relative to the root src dir with a <> pair
 target_include_directories(${PROJECT_NAME} PUBLIC src)
+target_include_directories(${PROJECT_NAME} PRIVATE assets)
 
 # this copies all resource files in the build directory
 # we need this, because we want to work with paths relative to the executable
@@ -69,7 +71,7 @@ install(DIRECTORY assets DESTINATION install)
 # there are a lot more variables you can set, and some
 # you need to set for some package types, but we want to
 # be minimal here
-set(CPACK_PACKAGE_NAME "MyExample")
+set(CPACK_PACKAGE_NAME "AutoWordle")
 set(CPACK_PACKAGE_VERSION "1.0.0")
 
 # we don't want to split our program up into several things
