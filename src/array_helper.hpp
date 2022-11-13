@@ -21,16 +21,16 @@ struct build_indices<0> {
 	using type = indices<>;
 };
 
+// This ultimately creates a type that looks like this: indices<0, 1, 2, 3, ..., N - 2, N - 1>
 template <std::size_t N>
 using BuildIndices = typename build_indices<N>::type;
 
 template <typename Iterator>
 using ValueType = typename std::iterator_traits<Iterator>::value_type;
 
-template <std::size_t... I, std::input_iterator InputIterator,
-          typename Array = std::array<ValueType<InputIterator>, sizeof...(I)>>
-Array make_array(InputIterator first, indices<I...>) {
-	return Array{{(void(I), *first++)...}};
+template <std::size_t... I, std::input_iterator InputIterator>
+std::array<ValueType<InputIterator>, sizeof...(I)> make_array(InputIterator first, indices<I...>) {
+	return std::array<ValueType<InputIterator>, sizeof...(I)>{{(void(I), *first++)...}};
 }
 
 }  // namespace internal
