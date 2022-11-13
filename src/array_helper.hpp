@@ -4,7 +4,8 @@
 #include <cassert>
 #include <iterator>
 
-namespace internal {
+namespace array_helper {
+namespace _detail {
 
 template <std::size_t... Indices>
 struct indices {
@@ -25,18 +26,52 @@ struct build_indices<0> {
 template <std::size_t N>
 using BuildIndices = typename build_indices<N>::type;
 
-template <typename Iterator>
+template <std::input_iterator Iterator>
 using ValueType = typename std::iterator_traits<Iterator>::value_type;
 
 template <std::size_t... I, std::input_iterator InputIterator>
-std::array<ValueType<InputIterator>, sizeof...(I)> make_array(InputIterator first, indices<I...>) {
+auto make_array(InputIterator first, indices<I...>) noexcept -> std::array<ValueType<InputIterator>, sizeof...(I)> {
 	return std::array<ValueType<InputIterator>, sizeof...(I)>{{(void(I), *first++)...}};
 }
 
-}  // namespace internal
+template <class Container>
+concept const_iterable = requires(Container container) {
+	                         std::cbegin(container);
+	                         std::cend(container);
+                         };
+
+template <class Container>
+concept iterable = (!const_iterable<Container>) && requires(Container container) {
+	                                                   std::begin(container);
+	                                                   std::end(container);
+                                                   };
+
+}  // namespace _detail
 
 template <std::size_t N, std::input_iterator InputIterator>
-std::array<internal::ValueType<InputIterator>, N> make_array(InputIterator first, InputIterator last) {
-	assert(std::distance(first, last) == N);
-	return internal::make_array(first, internal::BuildIndices<N>{});
+auto make_array(InputIterator first, InputIterator last) -> std::array<_detail::ValueType<InputIterator>, N> {
+	const typename std::iterator_traits<InputIterator>::difference_type diff = std::distance(first, last);
+
+	if (diff < 0) [[unlikely]] {
+		throw std::out_of_range("The distance between the iterators is negative");
+	} else if (static_cast<std::size_t>(diff) < N) [[unlikely]] {
+		throw std::out_of_range("The distance between the iterators is " + std::to_string(diff) +
+		                        " but needs to be at least " + std::to_string(N));
+	}
+
+	return _detail::make_array(first, _detail::BuildIndices<N>{});
 }
+
+template <std::size_t N, _detail::const_iterable Container>
+auto make_array(const Container& container)
+    -> std::array<_detail::ValueType<decltype(std::cbegin<Container>(std::declval<Container>()))>, N> {
+	return make_array<N>(std::cbegin(container), std::cend(container));
+}
+
+template <std::size_t N, _detail::iterable Container>
+auto make_array(const Container& container)
+    -> std::array<_detail::ValueType<decltype(std::begin<Container>(std::declval<Container>()))>, N> {
+	return make_array<N>(std::begin(container), std::end(container));
+}
+
+}  // namespace array_helper
