@@ -29,7 +29,7 @@ else ()
 endif ()
 
 # this lets me include files relative to the root src dir with a <> pair
-target_include_directories(${PROJECT_NAME} PUBLIC src/main)
+target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 # this copies all resource files in the build directory
 # we need this, because we want to work with paths relative to the executable
