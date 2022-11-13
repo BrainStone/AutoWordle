@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <ostream>
 #include <string>
 #include <string_view>
 
@@ -23,4 +24,6 @@ public:
 	Word& operator=(Word&&) = delete;
 
 	~Word() = default;
+
+	friend std::ostream& operator<<(std::ostream& os, const Word& word);
 };
