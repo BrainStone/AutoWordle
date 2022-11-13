@@ -47,8 +47,8 @@ std::list<Word> parseWordlist(const std::filesystem::path& path) {
 	line.reserve(Word::word_length);
 
 	while (std::getline(file, line)) {
-		// Skip all words not 5 chars long
-		if (line.size() != Word::word_length) continue;
+		// Skip all words not 5 chars long or lines that start with a # (those are comments)
+		if ((line.size() != Word::word_length) || (line[0] == '#')) continue;
 
 		output.emplace_back(line);
 	}
