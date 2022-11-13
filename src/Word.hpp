@@ -14,7 +14,7 @@ private:
 
 public:
 	explicit Word(const std::string& word);
-	explicit Word(const std::string_view& word);
+	explicit Word(std::string_view word);
 	explicit Word(const word_t& word);
 	Word(const Word&) = default;
 	Word(Word&&) = default;
