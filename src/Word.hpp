@@ -26,5 +26,8 @@ public:
 
 	~Word() = default;
 
+	bool operator==(const Word& other) const;
+	bool operator!=(const Word& other) const = default;
+
 	friend std::ostream& operator<<(std::ostream& os, const Word& word);
 };

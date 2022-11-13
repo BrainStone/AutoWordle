@@ -12,6 +12,10 @@ Word::Word(std::string_view word) : Word(make_array<word_length>(word)) {}
 
 Word::Word(const word_t& word) : word(word) {}
 
+bool Word::operator==(const Word& other) const {
+	return word == other.word;
+}
+
 std::ostream& operator<<(std::ostream& os, const Word& word) {
 	for (char letter : word.word) {
 		os << letter;
