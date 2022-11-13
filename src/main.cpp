@@ -30,6 +30,16 @@ int main(int argc, char* argv[]) {
 }
 
 std::list<Word> parseWordlist(const std::filesystem::path& path) {
+	std::error_code ec;
+
+	if (!std::filesystem::is_regular_file(path, ec)) {
+		if (ec) {
+			throw std::filesystem::filesystem_error("cannot parse file", path, ec);
+		} else {
+			throw std::runtime_error("cannot parse file: not a file [" + path.string() + "]");
+		}
+	}
+
 	std::ifstream file(path);
 	std::string line;
 	std::list<Word> output;
