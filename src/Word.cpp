@@ -16,6 +16,12 @@ bool Word::operator==(const Word& other) const {
 	return word == other.word;
 }
 
+Word::operator std::string() const noexcept {
+	std::string out{cbegin(), cend()};
+
+	return out;
+}
+
 std::ostream& operator<<(std::ostream& os, const Word& word) {
 	for (char letter : word.word) {
 		os << letter;
