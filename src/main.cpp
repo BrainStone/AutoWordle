@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "builtin_lists.hpp"
+
 int main(int argc, char* argv[]) {
 	// We accept 0 and 2 arguments
 	if ((argc != 1) && (argc != 3)) {
@@ -17,8 +19,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	const bool use_builtins = (argc == 1);
-	const std::list<Word> allowed_words = use_builtins ? std::list<Word>() : parseWordlist(argv[1]);
-	const std::list<Word> solution_words = use_builtins ? std::list<Word>() : parseWordlist(argv[2]);
+	const std::list<Word> allowed_words = use_builtins ? builtin_lists::allowed_words : parseWordlist(argv[1]);
+	const std::list<Word> solution_words = use_builtins ? builtin_lists::solution_words : parseWordlist(argv[2]);
 
 	for (const Word& word : allowed_words) {
 		std::cout << word << std::endl;

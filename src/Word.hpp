@@ -14,6 +14,7 @@ private:
 	const word_t word;
 
 public:
+	explicit Word(const char* word);
 	explicit Word(const std::string& word);
 	explicit Word(std::string_view word);
 	explicit Word(const word_t& word);

@@ -4,6 +4,8 @@
 
 using array_helper::make_array;
 
+Word::Word(const char* word) : Word(std::string_view{word}) {}
+
 Word::Word(const std::string& word) : Word(make_array<word_length>(word)) {}
 
 Word::Word(std::string_view word) : Word(make_array<word_length>(word)) {}

@@ -16,12 +16,48 @@ file(GLOB_RECURSE data assets/*)
 # you can use set(sources src/main.cpp) etc if you don't want to
 # use globing to find files automatically
 
+file(STRINGS assets/allowed_words.txt allowed_words)
+file(STRINGS assets/solution_words.txt solution_words)
+list(TRANSFORM allowed_words PREPEND "    Word(\"")
+list(TRANSFORM solution_words PREPEND "    Word(\"")
+list(TRANSFORM allowed_words APPEND "\"),\n")
+list(TRANSFORM solution_words APPEND "\"),\n")
+list(JOIN allowed_words "" allowed_words_joined)
+list(JOIN solution_words "" solution_words_joined)
+string(CONCAT
+        content
+        [=[
+#pragma once
+
+#include <list>
+
+#include "Word.hpp"
+
+namespace builtin_lists {
+
+inline const std::list<Word> allowed_words{
+]=]
+        "${allowed_words_joined}"
+        [=[
+};
+
+inline const std::list<Word> solution_words{
+]=]
+        "${solution_words_joined}"
+        [=[
+};
+
+} // builtin_lists
+]=]
+        )
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/assets/builtin_lists.hpp "${content}")
+
 ###############################################################################
 ## target definitions #########################################################
 ###############################################################################
 
 # add the data to the target, so it becomes visible in some IDE
-add_executable(${PROJECT_NAME} ${sources} ${data})
+add_executable(${PROJECT_NAME} ${sources} ${data} ${CMAKE_CURRENT_BINARY_DIR}/assets/builtin_lists.hpp)
 
 if (MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
@@ -31,7 +67,7 @@ endif ()
 
 # this lets me include files relative to the root src dir with a <> pair
 target_include_directories(${PROJECT_NAME} PUBLIC src)
-target_include_directories(${PROJECT_NAME} PRIVATE assets)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/assets)
 
 # this copies all resource files in the build directory
 # we need this, because we want to work with paths relative to the executable
