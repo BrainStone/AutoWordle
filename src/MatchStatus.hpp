@@ -1,32 +1,16 @@
 #pragma once
 
-#include <boost/integer.hpp>
-
 #include "Word.hpp"
-
-namespace helper {
-constexpr std::size_t powi(std::size_t base, std::size_t exp) {
-	std::size_t res = 1;
-
-	while (exp) {
-		if (exp & 1) res *= base;
-		exp >>= 1;
-		base *= base;
-	}
-
-	return res;
-}
-}  // namespace helper
 
 class MatchStatus {
 public:
-	using state_t = boost::uint_value_t<helper::powi(3, Word::word_length)>::fast;
-
-	enum class match : state_t {
+	enum class match {
 		grey = 0,
 		yellow = 1,
 		green = 2,
 	};
+
+	using state_t = std::array<match, Word::word_length>;
 
 private:
 	const state_t state;
@@ -39,8 +23,12 @@ public:
 	MatchStatus& operator=(const MatchStatus&) = delete;
 	MatchStatus& operator=(MatchStatus&&) = delete;
 
+	[[nodiscard]] constexpr const state_t& get_state() const noexcept {
+		return state;
+	}
+
 	~MatchStatus() = default;
 
 private:
-	static state_t getState(const Word& guess, const Word& solution);
+	static state_t generate_state(const Word& guess, const Word& solution);
 };

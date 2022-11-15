@@ -83,17 +83,17 @@ file(COPY ${data} DESTINATION assets)
 
 ## this defines the variables Boost_LIBRARIES that contain all library names
 ## that we need to link to
-find_package(Boost 1.64.0 REQUIRED)
-
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIR})
-    add_definitions("-DHAS_BOOST")
-endif ()
-
-target_link_libraries(${PROJECT_NAME} PUBLIC
-        ${Boost_LIBRARIES}
-        # here you can add any library dependencies
-        )
+#find_package(Boost 1.64.0 REQUIRED)
+#
+#if (Boost_FOUND)
+#    include_directories(${Boost_INCLUDE_DIR})
+#    add_definitions("-DHAS_BOOST")
+#endif ()
+#
+#target_link_libraries(${PROJECT_NAME} PUBLIC
+#        ${Boost_LIBRARIES}
+#        # here you can add any library dependencies
+#        )
 
 ###############################################################################
 ## packaging ##################################################################

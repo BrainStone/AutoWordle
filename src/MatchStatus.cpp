@@ -2,49 +2,49 @@
 
 #include <ranges>
 
-MatchStatus::MatchStatus(const Word& guess, const Word& solution) : state(getState(guess, solution)) {}
+MatchStatus::MatchStatus(const Word& guess, const Word& solution) : state(generate_state(guess, solution)) {}
 
-MatchStatus::state_t MatchStatus::getState(const Word& guess, const Word& solution) {
-	std::array<match, Word::word_length> states{};
+MatchStatus::state_t MatchStatus::generate_state(const Word& guess, const Word& solution) {
+	std::array<match, Word::word_length> state{};
 	const Word::mapping_t mapping_guess = guess.character_mapping();
 	Word::mapping_t mapping_solution = solution.character_mapping();
 
 	std::pair<Word::mapping_t::iterator, Word::mapping_t::iterator> result;
 	Word::mapping_t::iterator match_letter;
 
-	for (const Word::mapping_t::value_type& letter : mapping_guess) {
-		// Get all letters in the solution that match our current letter
-		result = mapping_solution.equal_range(letter.first);
+	// Green matches first
+	for (std::size_t i = 0; i < Word::word_length; ++i) {
+		if (guess[i] == solution[i]) {
+			state[i] = match::green;
 
-		if (result.first == result.second) {
-			// No match
-			states[letter.second] = match::grey;
+			// Remove the letter from the solution_mapping
+			result = mapping_solution.equal_range(guess[i]);
+			mapping_solution.erase(std::find_if(
+			    result.first, result.second,
+			    [i](const Word::mapping_t::value_type& solution_letter) { return solution_letter.second == i; }));
 		} else {
-			// See if there's a letter in the same position in the solution word
-			match_letter = std::find_if(result.first, result.second,
-			                            [&letter](const Word::mapping_t::value_type& solution_letter) {
-				                            return letter.second == solution_letter.second;
-			                            });
+			// This is to ensure we have a proper value set
+			state[i] = match::grey;
+		}
+	}
 
-			if (match_letter == result.second) {
-				// No positional match, take the first letter match
-				match_letter = result.first;
+	for (const Word::mapping_t::value_type& letter : mapping_guess) {
+		// Skip letter if it's green
+		if (state[letter.second] == match::green) {
+			continue;
+		}
 
-				states[letter.second] = match::yellow;
-			} else {
-				states[letter.second] = match::green;
-			}
+		// Get all letters in the solution that match our current letter
+		match_letter = mapping_solution.find(letter.first);
+
+		if (match_letter != mapping_solution.end()) {
+			// We found a letter
+			state[letter.second] = match::yellow;
 
 			// Remove the matched latter from the solution set, so we don't match it again
 			mapping_solution.erase(match_letter);
 		}
 	}
 
-	state_t out = 0;
-
-	for (match state : std::ranges::reverse_view(states)) {
-		out = (out * 3) + static_cast<state_t>(state);
-	}
-
-	return out;
+	return state;
 }
