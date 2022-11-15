@@ -5,6 +5,7 @@
 #include <string>
 
 #include "builtin_lists.hpp"
+#include "MatchStatus.hpp"
 
 int main(int argc, char* argv[]) {
 	// We accept 0 and 2 arguments
@@ -22,8 +23,8 @@ int main(int argc, char* argv[]) {
 	const std::list<Word> allowed_words = use_builtins ? builtin_lists::allowed_words : parseWordlist(argv[1]);
 	const std::list<Word> solution_words = use_builtins ? builtin_lists::solution_words : parseWordlist(argv[2]);
 
-	for (const Word& word : allowed_words) {
-		std::cout << word << std::endl;
+	for (const match& m : MatchStatus("tests", "ssstx").get_state()) {
+		std::cout << m << std::endl;
 	}
 
 	return 0;
