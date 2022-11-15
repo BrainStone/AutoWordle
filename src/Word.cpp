@@ -12,10 +12,6 @@ Word::Word(std::string_view word) : Word(make_array<word_length>(word)) {}
 
 Word::Word(const word_t& word) : word(word) {}
 
-bool Word::operator==(const Word& other) const {
-	return word == other.word;
-}
-
 Word::operator std::string() const noexcept {
 	std::string out{cbegin(), cend()};
 

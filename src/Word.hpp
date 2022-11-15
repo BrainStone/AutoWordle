@@ -30,8 +30,11 @@ public:
 
 	~Word() = default;
 
-	bool operator==(const Word& other) const;
-	bool operator!=(const Word& other) const = default;
+	constexpr bool operator==(const Word& other) const noexcept {
+		return word == other.word;
+	}
+
+	constexpr bool operator!=(const Word& other) const noexcept = default;
 
 	constexpr char operator[](std::size_t index) const {
 		return word[index];

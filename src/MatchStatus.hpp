@@ -21,6 +21,16 @@ public:
 	MatchStatus& operator=(const MatchStatus&) = delete;
 	MatchStatus& operator=(MatchStatus&&) = delete;
 
+	constexpr std::strong_ordering operator<=>(const MatchStatus& other) const noexcept = default;
+
+	constexpr bool operator==(const MatchStatus& other) const noexcept = default;
+	constexpr bool operator!=(const MatchStatus& other) const noexcept = default;
+
+	constexpr bool operator<(const MatchStatus& other) const noexcept = default;
+	constexpr bool operator<=(const MatchStatus& other) const noexcept = default;
+	constexpr bool operator>(const MatchStatus& other) const noexcept = default;
+	constexpr bool operator>=(const MatchStatus& other) const noexcept = default;
+
 	[[nodiscard]] constexpr const state_t& get_state() const noexcept {
 		return state;
 	}
