@@ -4,6 +4,7 @@
 #include <ostream>
 #include <string>
 #include <string_view>
+#include <map>
 
 class Word {
 public:
@@ -11,6 +12,7 @@ public:
 	using word_t = std::array<char, word_length>;
 	using const_iterator = word_t::const_iterator;
 	using const_reverse_iterator = word_t::const_reverse_iterator;
+	using mapping_t = std::multimap<char, std::size_t>;
 
 private:
 	const word_t word;
@@ -74,6 +76,8 @@ public:
 	[[nodiscard]] constexpr bool empty() const noexcept {
 		return word.empty();
 	}
+
+	[[nodiscard]] mapping_t character_mapping() const;
 
 	explicit operator std::string() const noexcept;
 
