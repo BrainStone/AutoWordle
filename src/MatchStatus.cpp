@@ -30,7 +30,7 @@ MatchStatus::state_t MatchStatus::generate_state(const Word& guess, const Word& 
 
 	for (const Word::mapping_t::value_type& letter : mapping_guess) {
 		// Skip letter if it's green
-		if (state[letter.second] == match::green) {
+		if (state[letter.second] == +match::green) {
 			continue;
 		}
 

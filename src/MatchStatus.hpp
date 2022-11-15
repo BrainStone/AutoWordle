@@ -1,15 +1,13 @@
 #pragma once
 
+#include "enum.hpp"
 #include "Word.hpp"
+
+// NOLINTNEXTLINE(misc-no-recursion,readability-const-return-type,google-explicit-constructor)
+BETTER_ENUM(match, std::uint_fast8_t, grey = 0, yellow = 1, green = 2)
 
 class MatchStatus {
 public:
-	enum class match {
-		grey = 0,
-		yellow = 1,
-		green = 2,
-	};
-
 	using state_t = std::array<match, Word::word_length>;
 
 private:

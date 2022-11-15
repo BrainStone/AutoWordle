@@ -95,6 +95,9 @@ file(COPY ${data} DESTINATION assets)
 #        # here you can add any library dependencies
 #        )
 
+file(DOWNLOAD "https://raw.githubusercontent.com/aantron/better-enums/0.11.3/enum.h" "lib/better-enums/enum.h")
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
+
 ###############################################################################
 ## packaging ##################################################################
 ###############################################################################
