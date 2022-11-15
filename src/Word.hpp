@@ -1,10 +1,10 @@
 #pragma once
 
 #include <array>
+#include <map>
 #include <ostream>
 #include <string>
 #include <string_view>
-#include <map>
 
 class Word {
 public:

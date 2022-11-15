@@ -26,7 +26,7 @@ Word::mapping_t Word::character_mapping() const {
 	std::multimap<char, std::size_t> mapping{};
 
 	for (std::size_t i = 0; i < word_length; ++i) {
-		mapping.insert({i, word[i]});
+		mapping.insert({word[i], i});
 	}
 
 	return mapping;
