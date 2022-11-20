@@ -49,11 +49,19 @@ MatchStatus::state_t MatchStatus::generate_state(const Word& guess, const Word& 
 	return state;
 }
 
+std::ostream& operator<<(std::ostream& os, const MatchStatus& matchStatus) {
+	for (match m : matchStatus.state) {
+		os << static_cast<unsigned int>(m._value);
+	}
+
+	return os;
+}
+
 std::istream& operator>>(std::istream& is, MatchStatus& matchStatus) {
 	MatchStatus temp{};
 	char letter;
 
-    // Consume previous whitespace
+	// Consume previous whitespace
 	is >> std::ws;
 
 	for (std::size_t i = 0; is && i < Word::word_length; ++i) {

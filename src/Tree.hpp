@@ -5,17 +5,18 @@
 template <class Key, class Value>
 class Tree {
 public:
+	using map_type = std::map<Key, Tree<Key, Value>>;
 	using key_type = Key;
 	using value_type = Value;
 
 private:
-	std::map<Key, Tree<Key, Value>> children;
 	Value _value;
+	map_type children;
 
 public:
 	Tree() = default;
 	explicit Tree(const Value& value) : _value(value){};
-	Tree(const Tree<Key, Value>&) noexcept = default;
+	Tree(const Tree<Key, Value>& tree) noexcept = default;
 	Tree(Tree<Key, Value>&&) noexcept = default;
 
 	Tree<Key, Value>& operator=(const Tree<Key, Value>&) noexcept = default;
@@ -47,11 +48,40 @@ public:
 		return _value;
 	}
 
-	Tree& get_child(const Key& key) {
+	Tree<Key, Value>& get_child(const Key& key) {
 		return children.at(key);
 	}
 
-	const Tree& get_child(const Key& key) const {
+	const Tree<Key, Value>& get_child(const Key& key) const {
 		return children.at(key);
+	}
+
+	friend std::ostream& operator<<(std::ostream& os, const Tree<Key, Value>& tree) {
+		os << "digraph tree {\n";
+		tree.render_nodes(os);
+		os << "}";
+
+		return os;
+	}
+
+private:
+	void render_nodes(std::ostream& os) const {
+		bool has_children;
+
+		for (const std::pair<const Key, Tree<Key, Value>>& child : children) {
+			has_children = child.second.has_children();
+
+			if (!has_children) {
+				os << '_' << child.second._value << " [ label = \"" << child.second._value << "\", color = green ];\n";
+			}
+
+			os << _value << " -> ";
+			if (!has_children) {
+				os << '_';
+			}
+			os << child.second._value << " [ label = \"" << child.first << "\" ];\n";
+
+			child.second.render_nodes(os);
+		}
 	}
 };

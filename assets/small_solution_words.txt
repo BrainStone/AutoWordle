@@ -7,5 +7,16 @@ girly
 girth
 given
 giver
+house
+riser
+risky
+rival
+river
+slain
+slang
+slant
+slash
+slate
+stone
 stony
 tests

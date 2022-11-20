@@ -40,6 +40,7 @@ public:
 		return state;
 	}
 
+	friend std::ostream& operator<<(std::ostream& os, const MatchStatus& matchStatus);
 	friend std::istream& operator>>(std::istream& is, MatchStatus& matchStatus);
 
 private:

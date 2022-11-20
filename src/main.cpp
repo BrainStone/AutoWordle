@@ -27,11 +27,15 @@ int main(int argc, char* argv[]) {
 	solver_tree tree = generate_optimal_tree(allowed_words, solution_words);
 	MatchStatus matchStatus{};
 
+	std::cout << tree << std::endl;
+
 	while (tree.has_children()) {
 		std::cout << "Use word: " << tree.get_value() << std::endl;
 
 		std::cin >> matchStatus;
-		tree = tree.get_child(matchStatus);
+		tree = solver_tree{tree.get_child(matchStatus)};
+
+		std::cout << tree << std::endl;
 	}
 
 	std::cout << "Solution: " << tree.get_value() << std::endl;

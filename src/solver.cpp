@@ -19,7 +19,7 @@ std::pair<solver_tree, std::size_t> generate_optimal_tree_with_depth(const std::
 	}
 
 	std::map<MatchStatus, std::list<Word>> solution_words_grouped{};
-	solver_tree result;
+	solver_tree result{};
 	solver_tree temp_tree;
 	std::pair<solver_tree, std::size_t> temp_result;
 	std::size_t worst_subscore = 0;
@@ -44,17 +44,12 @@ std::pair<solver_tree, std::size_t> generate_optimal_tree_with_depth(const std::
 				worst_subscore = temp_result.second;
 
 				// We hit a dead end, no point in continuing
-				if (worst_subscore > max_guesses) {
+				if (worst_subscore >= best_score) {
 					break;
 				}
 			}
 
 			temp_tree.add_subtree(group.first, temp_result.first);
-		}
-
-		// We hit a dead end, no point in considering this a new best score
-		if (worst_subscore > max_guesses) {
-			continue;
 		}
 
 		if (worst_subscore < best_score) {
