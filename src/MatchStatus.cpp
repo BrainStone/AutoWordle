@@ -48,3 +48,26 @@ MatchStatus::state_t MatchStatus::generate_state(const Word& guess, const Word& 
 
 	return state;
 }
+
+std::istream& operator>>(std::istream& is, MatchStatus& matchStatus) {
+	MatchStatus temp{};
+	char letter;
+
+	for (std::size_t i = 0; is && i < Word::word_length; ++i) {
+		letter = static_cast<char>(is.get());
+
+		if ((letter > '2') || (letter < '0')) {
+			is.exceptions(std::istream::failbit);
+
+			return is;
+		}
+
+		temp.state[i] = match::_from_index_unchecked(letter - '0');
+	}
+
+	if (is) {
+		matchStatus = temp;
+	}
+
+	return is;
+}

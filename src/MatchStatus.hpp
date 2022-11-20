@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "enum.hpp"
 #include "Word.hpp"
 
@@ -37,6 +39,8 @@ public:
 	[[nodiscard]] constexpr const state_t& get_state() const noexcept {
 		return state;
 	}
+
+	friend std::istream& operator>>(std::istream& is, MatchStatus& matchStatus);
 
 private:
 	static state_t generate_state(const Word& guess, const Word& solution);

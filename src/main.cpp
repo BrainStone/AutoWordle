@@ -30,10 +30,11 @@ int main(int argc, char* argv[]) {
 	while (tree.has_children()) {
 		std::cout << "Use word: " << tree.get_value() << std::endl;
 
-		// TODO: Read state.
-		matchStatus = MatchStatus("12345", "12345");
+		std::cin >> matchStatus;
 		tree = tree.get_child(matchStatus);
 	}
+
+	std::cout << "Solved!" << std::endl;
 
 	return 0;
 }
