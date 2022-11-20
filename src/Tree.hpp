@@ -13,17 +13,21 @@ private:
 	const Value _value;
 
 public:
-	explicit Tree(const Value& value) = default;
-	Tree(const Tree&) noexcept = default;
-	Tree(Tree&&) noexcept = default;
+	explicit Tree(const Value& value) : _value(value){};
+	Tree(const Tree<Key, Value>&) noexcept = default;
+	Tree(Tree<Key, Value>&&) noexcept = default;
 
-	Tree& operator=(const Tree&) = delete;
-	Tree& operator=(Tree&&) = delete;
+	Tree<Key, Value>& operator=(const Tree<Key, Value>&) = delete;
+	Tree<Key, Value>& operator=(Tree<Key, Value>&&) = delete;
 
 	~Tree() = default;
 
 	void add_child(const Key& key, const Value& value) {
 		children.emplace(key, value);
+	}
+
+	void add_subtree(const Key& key, const Tree<Key, Value>& subtree) {
+		children.emplace(key, subtree);
 	}
 
 	void remove_child(const Key& key) {
