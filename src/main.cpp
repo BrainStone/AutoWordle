@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 		tree = tree.get_child(matchStatus);
 	}
 
-	std::cout << "Solved!" << std::endl;
+	std::cout << "Solution: " << tree.get_value() << std::endl;
 
 	return 0;
 }

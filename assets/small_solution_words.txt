@@ -1,0 +1,11 @@
+alloy
+ghoul
+giant
+giddy
+gipsy
+girly
+girth
+given
+giver
+stony
+tests

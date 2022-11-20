@@ -53,6 +53,9 @@ std::istream& operator>>(std::istream& is, MatchStatus& matchStatus) {
 	MatchStatus temp{};
 	char letter;
 
+    // Consume previous whitespace
+	is >> std::ws;
+
 	for (std::size_t i = 0; is && i < Word::word_length; ++i) {
 		letter = static_cast<char>(is.get());
 
