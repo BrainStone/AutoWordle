@@ -6,6 +6,7 @@
 
 #include "builtin_lists.hpp"
 #include "MatchStatus.hpp"
+#include "solver.hpp"
 
 int main(int argc, char* argv[]) {
 	// We accept 0 and 2 arguments
@@ -23,8 +24,15 @@ int main(int argc, char* argv[]) {
 	const std::list<Word> allowed_words = use_builtins ? builtin_lists::allowed_words : parseWordlist(argv[1]);
 	const std::list<Word> solution_words = use_builtins ? builtin_lists::solution_words : parseWordlist(argv[2]);
 
-	for (const match& m : MatchStatus("tests", "ssstx").get_state()) {
-		std::cout << m << std::endl;
+	solver_tree tree = generate_optimal_tree(allowed_words, solution_words);
+	MatchStatus matchStatus{};
+
+	while (tree.has_children()) {
+		std::cout << "Use word: " << tree.get_value() << std::endl;
+
+		// TODO: Read state.
+		matchStatus = MatchStatus("12345", "12345");
+		tree = tree.get_child(matchStatus);
 	}
 
 	return 0;

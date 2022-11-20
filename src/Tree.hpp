@@ -10,15 +10,16 @@ public:
 
 private:
 	std::map<Key, Tree<Key, Value>> children;
-	const Value _value;
+	Value _value;
 
 public:
+	Tree() = default;
 	explicit Tree(const Value& value) : _value(value){};
 	Tree(const Tree<Key, Value>&) noexcept = default;
 	Tree(Tree<Key, Value>&&) noexcept = default;
 
-	Tree<Key, Value>& operator=(const Tree<Key, Value>&) = delete;
-	Tree<Key, Value>& operator=(Tree<Key, Value>&&) = delete;
+	Tree<Key, Value>& operator=(const Tree<Key, Value>&) noexcept = default;
+	Tree<Key, Value>& operator=(Tree<Key, Value>&&) noexcept = default;
 
 	~Tree() = default;
 

@@ -15,9 +15,10 @@ public:
 	using mapping_t = std::multimap<char, std::size_t>;
 
 private:
-	const word_t word;
+	word_t word;
 
 public:
+	Word() = default;
 	Word(const char* word);         // NOLINT(google-explicit-constructor)
 	Word(const std::string& word);  // NOLINT(google-explicit-constructor)
 	Word(std::string_view word);    // NOLINT(google-explicit-constructor)
@@ -25,8 +26,8 @@ public:
 	Word(const Word&) = default;
 	Word(Word&&) = default;
 
-	Word& operator=(const Word&) = delete;
-	Word& operator=(Word&&) = delete;
+	Word& operator=(const Word&) = default;
+	Word& operator=(Word&&) = default;
 
 	~Word() = default;
 

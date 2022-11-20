@@ -1,7 +1,7 @@
 #include "solver.hpp"
 
-Tree<MatchStatus, Word> generate_optimal_tree(const std::list<Word>& allowed_words,
-                                              const std::list<Word>& solution_words, std::size_t depth) {
+solver_tree generate_optimal_tree(const std::list<Word>& allowed_words, const std::list<Word>& solution_words,
+                                  std::size_t depth) {
 	std::map<MatchStatus, std::list<Word>> solution_words_grouped{};
 	std::map<MatchStatus, std::list<Word>> best_solution_words_grouped{};
 	Word* best_word = nullptr;
@@ -15,7 +15,7 @@ Tree<MatchStatus, Word> generate_optimal_tree(const std::list<Word>& allowed_wor
 		}
 	}
 
-	Tree<MatchStatus, Word> result{*best_word};
+	solver_tree result{*best_word};
 
 	for (const auto& xxx : best_solution_words_grouped) {
 		result.add_subtree(xxx.first, generate_optimal_tree(allowed_words, xxx.second, depth + 1));

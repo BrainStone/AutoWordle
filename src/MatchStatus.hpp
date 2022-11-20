@@ -11,15 +11,18 @@ public:
 	using state_t = std::array<match, Word::word_length>;
 
 private:
-	const state_t state;
+	state_t state;
 
 public:
+	MatchStatus() = default;
 	MatchStatus(const Word& guess, const Word& solution);
 	MatchStatus(const MatchStatus&) = default;
 	MatchStatus(MatchStatus&&) = default;
 
-	MatchStatus& operator=(const MatchStatus&) = delete;
-	MatchStatus& operator=(MatchStatus&&) = delete;
+	MatchStatus& operator=(const MatchStatus&) = default;
+	MatchStatus& operator=(MatchStatus&&) = default;
+
+	~MatchStatus() = default;
 
 	constexpr std::strong_ordering operator<=>(const MatchStatus& other) const noexcept = default;
 
@@ -34,8 +37,6 @@ public:
 	[[nodiscard]] constexpr const state_t& get_state() const noexcept {
 		return state;
 	}
-
-	~MatchStatus() = default;
 
 private:
 	static state_t generate_state(const Word& guess, const Word& solution);
