@@ -40,11 +40,11 @@ std::pair<solver_tree, std::size_t> generate_optimal_tree_with_depth(const std::
 		for (const auto& group : solution_words_grouped) {
 			temp_result = generate_optimal_tree_with_depth(allowed_words, group.second, depth + 1);
 
-			if (temp_result.second > worst_subscore) {
+			if (temp_result.second > worst_subscore) [[likely]] {
 				worst_subscore = temp_result.second;
 
 				// We hit a dead end, no point in continuing
-				if (worst_subscore >= best_score) {
+				if (worst_subscore >= best_score) [[likely]] {
 					break;
 				}
 			}
